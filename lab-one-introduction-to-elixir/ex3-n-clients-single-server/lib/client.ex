@@ -11,11 +11,11 @@ defmodule Client do
 
   defp next(server) do
     
-    # 50% / 50% chance to send server a respective circle / square request
-    if Helper.random(2) == 1 do
-      send server, { :circle, [self(), 1.0] }
-    else
-      send server, { :square, [self(), 1.0] }
+    # 1/3 chance to send server a respective circle / square / triangle request
+    case Helper.random(3) do
+      1 -> send server, { :circle, [self(), 1.0] }
+      2 -> send server, { :square, [self(), 1.0] }
+      3 -> send server, { :triangle, [self(), 2.0, 2.5, 3.0] }
     end
     receive do
     { :result, area } -> IO.puts "#{inspect(self())}:  Area is #{area}"

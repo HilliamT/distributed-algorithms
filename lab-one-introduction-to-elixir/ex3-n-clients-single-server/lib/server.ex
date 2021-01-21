@@ -16,6 +16,10 @@ defp next() do
     send pid, { :result, 3.14159 * radius * radius }
   { :square, [pid, side] } -> 
     send pid, { :result, side * side }
+  { :triangle, [pid, a, b, c] } ->
+    # Heron's formula
+    s = (a + b + c) / 2
+    send pid, { :result, Helper.sqrt(s * (s - a) * (s - b) * (s - c))}
   end
   next()
 end # next

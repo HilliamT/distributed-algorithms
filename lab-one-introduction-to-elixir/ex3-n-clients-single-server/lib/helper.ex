@@ -41,7 +41,8 @@ def node_init do  # get node arguments and spawn a process to exit node after ma
   config = Map.new
   config = Map.put config, :max_time, 	  String.to_integer(Enum.at(System.argv, 0))
   config = Map.put config, :node_suffix,  Enum.at(System.argv, 1)
-  config = Map.put config, :start_function, :'#{Enum.at(System.argv, 2)}'
+  config = Map.put config, :clients, String.to_integer(Enum.at(System.argv, 2))
+  config = Map.put config, :start_function, :'#{Enum.at(System.argv, 3)}'
 
   spawn(Helper, :exit_after, [config.max_time])
   config

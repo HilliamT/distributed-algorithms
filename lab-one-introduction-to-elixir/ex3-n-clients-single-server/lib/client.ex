@@ -10,11 +10,19 @@ defmodule Client do
   end
 
   defp next(server) do
-    send server, { :circle, [self(), 1.0] }
+    
+    # 50% / 50% chance to send server a respective circle / square request
+    if Helper.random(2) == 1 do
+      send server, { :circle, [self(), 1.0] }
+    else
+      send server, { :square, [self(), 1.0] }
+    end
     receive do
     { :result, area } -> IO.puts "#{inspect(self())}:  Area is #{area}"
     end
-    Process.sleep(1000)
+    
+    # Make client sleep 1-3 seconds before next request
+    Process.sleep(Helper.random(3) * 1000)
     next(server)
   end
 
